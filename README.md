@@ -1,5 +1,13 @@
 # Prebuiltive
 
+PREQUISITES:
+<ul>
+<li>Android-Compatible IDE/li>
+<li>Android SDK</li>
+<li>Android NDK</li>
+<li>Make (GNU)</li>
+<li>C++ Compiler</li>
+</ul>
 In order to run prebuiltive, first locate to the location of /Android/SDK/platform-tools on your computer, and open a command prompt window there. With your Android plugged in, run:
 ```
 //Following directory locations and file names can all be changed:
