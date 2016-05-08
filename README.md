@@ -2,7 +2,7 @@
 
 PREQUISITES:
 <ul>
-<li>Android-Compatible IDE/li>
+<li>Android-Compatible IDE</li>
 <li>Android SDK</li>
 <li>Android NDK</li>
 <li>Make (GNU)</li>
