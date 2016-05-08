@@ -2,8 +2,8 @@
 
 In order to run prebuiltive, first locate to the location of /Android/SDK/platform-tools on your computer, and open a command prompt window there. With your Android plugged in, run:
 ```
-//Following directories are examples:
-adb push C:\manas\IdeaProjects\Prebuiltive\app\src\main\libs\armeabi\prebuiltive /data/local
+//Following directory locations and file names can all be changed:
+adb push C:\users\manas\IdeaProjects\Prebuiltive\app\src\main\libs\armeabi\prebuiltive /data/local
 ```
 If you're using your computer's terminal (Android teriminal emulators are set to shell by default), run:
 ```
