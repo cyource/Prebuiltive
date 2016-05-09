@@ -18,6 +18,7 @@ If you're using your computer's terminal (Android teriminal emulators are set to
 adb shell
 ```
 NOTE: Root Users! Skip this step (unless you want to get your hands on some ADB) - you can change the permissions via your Root Explorer (which I presume you have).
+</br>
 Now to change the file's permissions in order to run it:
 ```
 //switch to directory
