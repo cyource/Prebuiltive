@@ -19,6 +19,7 @@ adb shell
 ```
 NOTE: Root Users! Skip this step (unless you want to get your hands on some ADB) - you can change the permissions via your Root Explorer (which I presume you have).
 </br>
+</br>
 Now to change the file's permissions in order to run it:
 ```
 //switch to directory
