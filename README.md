@@ -13,6 +13,9 @@ In order to run prebuiltive, first locate to the location of /Android/SDK/platfo
 //Following directory locations and file names can all be changed:
 adb push C:\users\manas\IdeaProjects\Prebuiltive\app\src\main\libs\armeabi\prebuiltive /data/local
 ```
+NOTE: Root Users! You change the file permissions via your Root Explorer (which I presume you have). After that, go to running the program - the final step.
+</br>
+</br>
 If you're using your computer's terminal (Android teriminal emulators are set to shell by default), run:
 ```
 adb shell
