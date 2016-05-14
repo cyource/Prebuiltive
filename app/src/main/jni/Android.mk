@@ -7,7 +7,7 @@ LOCAL_SRC_FILES := prebuiltive.cpp
 
 LOCAL_STATIC_LIBRARIES := cpufeatures
 
-LOCAL_CFLAGS += -fPIE
+LOCAL_CFLAGS += -fPIE -std=c++11
 LOCAL_LDFLAGS += -fPIE -pie
 
 include $(BUILD_EXECUTABLE)

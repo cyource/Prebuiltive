@@ -1,4 +1,6 @@
 #include<iostream>
+#include <algorithm>
+#include<vector>
 #include<cpu-features.h>
 #include<string>
 
@@ -7,7 +9,9 @@ using namespace std;
 class Properties {
     public:
         Properties();
-        string android_getCpuFamilies(int);
+        string android_getCpu(int);
+        string android_gotCpuFamily;
+        vector<string> android_gotCpuFeatures{};
 };
 
 Properties::Properties() {
@@ -15,27 +19,66 @@ Properties::Properties() {
     << "---DEVELOPED BY MANAS RAWAT (CYOURCE---" << endl;
 }
 
-string Properties::android_getCpuFamilies(int n){
+string Properties::android_getCpu(int n){
+    string android_gotCpuFamily = "ERROR: Cannot identify CPU Family";
+
     string android_givenCpuFamilies[] = {
-        "ANDROID_CPU_FAMILY_ARM",
-        "ANDROID_CPU_FAMILY_X86",
-        "ANDROID_CPU_FAMILY_MIPS",
-        "ANDROID_CPU_FAMILY_ARM64",
-        "ANDROID_CPU_FAMILY_X86_64",
-        "ANDROID_CPU_FAMILY_MIPS64"
+        "ARM",
+        "X86",
+        "MIPS",
+        "ARM64",
+        "X86_64",
+        "MIPS64"
+    };
+
+    string android_givenCpuFeatures[] = {
+        //ARM
+        "VFPv2",
+        "ARMv7",
+        "VFPv3",
+        "VFP_D32",
+        "NEON",
+        "VFP_FP16",
+        "VFP_FMA",
+        "NEON_FMA",
+        "IDIV_ARM",
+        "IDIV_THUMB2",
+        "iWMMXt",
+        "LDREX_STREX",
+        //ARM64
+        "FP",
+        "ASIMD",
+        "AES",
+        "CRC32",
+        "SHA1",
+        "SHA2",
+        "PMULL",
+        //x86
+        "SSSE3",
+        "POPCNT",
+        "MOVBE",
+        //MIPS
+        "R6",
+        "MSA"
     };
 
     switch(n){
         case 0: {
             for (int i = 0; i < 6; i++) {
                 if (android_getCpuFamily() == i) {
-                    return android_givenCpuFamilies[i];
+                    android_gotCpuFamily = "CPU FAMILY: " + android_givenCpuFamilies[i];
+                }
+            }
+        }
+        case 1: {
+            for (int j = 0; j < 24; j++) {
+                if (android_getCpuFeatures() == j) {
+                    android_gotCpuFeatures.push_back(android_givenCpuFeatures[j]);
                 }
             }
         }
         default: break;
     }
-    return "Error: Cannot identify CPU Family";
 }
 
 int main() {
@@ -43,10 +86,16 @@ int main() {
     string input;
     Properties props;
     getline(cin, input);
-    string cmds[] = {"cpu family"};
 
-    if (input == cmds[0]) {
-        cout << props.android_getCpuFamilies(0) << endl;
+    if (input == "cpu family") {
+        props.android_getCpu(0);
+        cout << "CPU FAMILY:" + props.android_gotCpuFamily << endl;
+    } else if (input == "cpu features") {
+        props.android_getCpu(1);
+        string v2s = accumulate(begin(props.android_gotCpuFeatures), end(props.android_gotCpuFeatures), v2s);
+        cout << "CPU FEATURES: " + v2s << endl;
+    } else {
+        cout << "ERROR: Command not recognised" << endl;
     }
 
     return 0;
