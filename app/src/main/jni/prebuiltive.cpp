@@ -1,103 +1,79 @@
+#define __STDC_FORMAT_MACROS
+#include <stdio.h>
+#include <stdint.h>
 #include<iostream>
-#include <algorithm>
-#include<vector>
+//#include <algorithm>
+//#include<vector>
+#include<stdlib.h>
 #include<cpu-features.h>
+#include<sys/system_properties.h>
 #include<string>
+#include <inttypes.h>
 
 using namespace std;
 
 class Properties {
     public:
         Properties();
-        void android_getCpu(int);
-        string android_gotCpuFamily;
-        vector<string> android_gotCpuFeatures{};
+        string android_returnCpuFamily();
 };
 
 Properties::Properties() {
-    cout << "Prebuiltive: Version 1.2.1" << endl
-    << "---DEVELOPED BY MANAS RAWAT (CYOURCE---" << endl;
+    string strt = "</> Prebuiltive: A Cyourceware";
+    string dashes;
+    for (char c: strt) {
+        dashes += "-";
+    }
+    cout << dashes <<endl
+         << strt << endl
+         << dashes << endl;
 }
 
-void Properties::android_getCpu(int n){
-
-    string android_givenCpuFamilies[] = {
-        "ARM",
-        "X86",
-        "MIPS",
-        "ARM64",
-        "X86_64",
-        "MIPS64"
-    };
-
-    string android_givenCpuFeatures[] = {
-        //ARM
-        "VFPv2",
-        "ARMv7",
-        "VFPv3",
-        "VFP_D32",
-        "NEON",
-        "VFP_FP16",
-        "VFP_FMA",
-        "NEON_FMA",
-        "IDIV_ARM",
-        "IDIV_THUMB2",
-        "iWMMXt",
-        "LDREX_STREX",
-        //ARM64
-        "FP",
-        "ASIMD",
-        "AES",
-        "CRC32",
-        "SHA1",
-        "SHA2",
-        "PMULL",
-        //x86
-        "SSSE3",
-        "POPCNT",
-        "MOVBE",
-        //MIPS
-        "R6",
-        "MSA"
-    };
-
-    switch(n){
-        case 0: {
-            for (int i = 0; i <= 5; i++) {
-                if (android_getCpuFamily() == i) {
-                    android_gotCpuFamily = android_givenCpuFamilies[i];
-                }
-            }
-        } break;
-        case 1: {
-            for (int j = 0; j < 4; j++) {
-                if (android_getCpuFeatures() == j) {
-                    android_gotCpuFeatures.push_back(android_givenCpuFeatures[j]);
-                }
-            }
-        } break;
-        default: break;
+string Properties::android_returnCpuFamily(){
+    string android_givenCpuFamilies[] = { "ARM", "X86", "MIPS", "ARM64", "X86_64", "MIPS64" };
+    AndroidCpuFamily android_getCpuFamily();
+    for (int i = 0; i < 6; i++) {
+        if (android_getCpuFamily() == i) {
+            return android_givenCpuFamilies[i];
+        }
     }
+    return "[ERROR: Failed to identify CPU Family]";
 }
 
 int main() {
-
-    string input;
     Properties props;
-    getline(cin, input);
-
-    if (input == "cpu family") {
-        props.android_getCpu(0);
-        cout << "CPU FAMILY: " + props.android_gotCpuFamily << endl;
-    } else if (input == "cpu features") {
-        props.android_getCpu(1);
-        string v2s;
-        v2s = accumulate(begin(props.android_gotCpuFeatures), end(props.android_gotCpuFeatures), v2s);
-        cout << "CPU FEATURES: " + v2s << endl;
-    } else {
-        cout << "ERROR: Command not recognised" << endl;
+    if (getenv("ANDROID_PROPERTY_WORKSPACE")) {
+    bool quit = false;
+    while (!quit) {
+        string input;
+        cout << ">> ";
+        getline(cin, input);
+        if (input == "cpu family") {
+            cout << props.android_returnCpuFamily() << endl;
+        } else if (input == "cpu count") {
+            int android_getCpuCount(void);
+            cout << android_getCpuCount << endl;
+        } else if (input == "cpu feataflag") {
+            uint64_t android_getCpuFeatures();
+            printf("%" PRIu64 "\n", android_getCpuFeatures());
+        } else if (input == "sdk -v") {
+            FILE* sdk = popen("getprop ro.build.version.sdk", "a");
+            cout << pclose(sdk) << endl;
+        } else if (input == "os -v") {
+            FILE* release = popen("getprop ro.build.version.release", "a");
+            cout << pclose(release) << endl;
+        } else if (input == "device model") {
+            FILE* model = popen("getprop ro.product.model", "a");
+            cout << pclose (model) << endl;
+        } else if (input == "quit") {
+            quit = true;
+        } else {
+            cout << "[ERROR: Command not recognised]" << endl;
+        }
     }
-
+    } else {
+        cout << "[ERROR: Android workspace required]" << endl;
+    }
     return 0;
 }
 
